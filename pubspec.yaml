@@ -37,6 +37,9 @@ dependencies:
   sqflite: ^2.0.2
   google_fonts: ^2.3.0
   equatable: ^2.0.3
+  dartz: ^0.10.1
+  url_launcher: ^6.0.20
+  font_awesome_flutter: ^9.2.0
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +67,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+      - assets/images/profile.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

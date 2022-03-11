@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_listecc/presentation/pages/about_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,6 +27,19 @@ class _HomePageState extends State<HomePage> {
           'Todo Listecc',
           style: TextStyle(color: Colors.black),
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: const Icon(
+                Icons.person,
+                color: Colors.black87,
+              ),
+              tooltip: 'About Me',
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const AboutPage();
+                }));
+              }),
+        ],
       ),
       body: Center(
         child: Column(
