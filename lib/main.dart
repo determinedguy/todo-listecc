@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_listecc/common/constants.dart';
 import 'package:todo_listecc/presentation/pages/home_page.dart';
 
 void main() {
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todo Listecc',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme,
       home: const HomePage(),
     );
   }

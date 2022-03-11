@@ -19,7 +19,6 @@ class AboutPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              // Insert the photo profile
               const CircleAvatar(
                 maxRadius: 100,
                 backgroundImage: AssetImage('assets/images/profile.png'),
@@ -27,14 +26,7 @@ class AboutPage extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.all(8.0),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 100,
-                ),
-                child: Text(
-                  'Muhammad Athallah',
-                  ),
-              ),
+              const Text('Muhammad Athallah'),
               const Padding(
                 padding: EdgeInsets.all(8.0),
               ),
@@ -47,9 +39,8 @@ class AboutPage extends StatelessWidget {
                   ElevatedButton(
                     child: const Icon(FontAwesomeIcons.facebook),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey[700],
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     ),
                     onPressed: () {
                       launch('https://www.facebook.com/mhdathallah.id/');
@@ -58,9 +49,8 @@ class AboutPage extends StatelessWidget {
                   ElevatedButton(
                     child: const Icon(FontAwesomeIcons.instagram),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey[700],
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     ),
                     onPressed: () {
                       launch('https://www.instagram.com/mhd.athallah/');
@@ -69,9 +59,8 @@ class AboutPage extends StatelessWidget {
                   ElevatedButton(
                     child: const Icon(FontAwesomeIcons.twitter),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey[700],
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     ),
                     onPressed: () {
                       launch('https://www.twitter.com/mhd_athallah/');
@@ -80,9 +69,8 @@ class AboutPage extends StatelessWidget {
                   ElevatedButton(
                     child: const Icon(FontAwesomeIcons.envelope),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.grey[700],
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     ),
                     onPressed: () {
                       launch(Uri.encodeFull(

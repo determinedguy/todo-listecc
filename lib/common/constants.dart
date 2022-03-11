@@ -42,3 +42,16 @@ const kColorScheme = ColorScheme(
   onError: Colors.white,
   brightness: Brightness.dark,
 );
+
+ThemeData appTheme = ThemeData(
+    primarySwatch: Colors.deepPurple,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.black45,
+      // This will be applied to the "back" icon
+      iconTheme: IconThemeData(color: Colors.black),
+      // This will be applied to the action icon buttons that locates on the right side
+      //actionsIconTheme: IconThemeData(color: Colors.amber),
+      //centerTitle: false,
+      //elevation: 15,
+      //titleTextStyle: TextStyle(color: Colors.lightBlueAccent),
+    ));
