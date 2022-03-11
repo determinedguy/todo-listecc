@@ -23,16 +23,10 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          'Todo Listecc',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text('Todo Listecc'),
         actions: <Widget>[
           IconButton(
-              icon: const Icon(
-                Icons.person,
-                color: Colors.black87,
-              ),
+              icon: const Icon(Icons.person),
               tooltip: 'About Me',
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {

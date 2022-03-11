@@ -25,6 +25,11 @@ final TextStyle greyTitleText = GoogleFonts.poppins(
     color: Colors.grey);
 final TextStyle purpleMainText = GoogleFonts.poppins(
     fontSize: 23,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0.25,
+    color: Colors.deepPurple);
+final TextStyle purpleBarText = GoogleFonts.poppins(
+    fontSize: 23,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.25,
     color: Colors.deepPurple);
@@ -57,9 +62,9 @@ const kColorScheme = ColorScheme(
 
 ThemeData appTheme = ThemeData(
     primarySwatch: Colors.deepPurple,
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: Colors.black45,
-      iconTheme: IconThemeData(color: Colors.black),
-      titleTextStyle: TextStyle(fontSize: 20, color: Colors.black),
+      iconTheme: const IconThemeData(color: Colors.deepPurple),
+      titleTextStyle: purpleBarText,
     ),
     textTheme: kTextTheme);
