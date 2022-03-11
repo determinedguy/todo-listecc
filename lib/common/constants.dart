@@ -18,12 +18,24 @@ final TextStyle kSubtitle = GoogleFonts.poppins(
     fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.15);
 final TextStyle kBodyText = GoogleFonts.poppins(
     fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 0.25);
+final TextStyle greyTitleText = GoogleFonts.poppins(
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0.25,
+    color: Colors.grey);
+final TextStyle purpleMainText = GoogleFonts.poppins(
+    fontSize: 23,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.25,
+    color: Colors.deepPurple);
 
 // text theme
 final kTextTheme = TextTheme(
   headline5: kHeading5,
   headline6: kHeading6,
   subtitle1: kSubtitle,
+  subtitle2: greyTitleText,
+  bodyText1: purpleMainText,
   bodyText2: kBodyText,
 );
 
@@ -47,11 +59,7 @@ ThemeData appTheme = ThemeData(
     primarySwatch: Colors.deepPurple,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black45,
-      // This will be applied to the "back" icon
       iconTheme: IconThemeData(color: Colors.black),
-      // This will be applied to the action icon buttons that locates on the right side
-      //actionsIconTheme: IconThemeData(color: Colors.amber),
-      //centerTitle: false,
-      //elevation: 15,
-      //titleTextStyle: TextStyle(color: Colors.lightBlueAccent),
-    ));
+      titleTextStyle: TextStyle(fontSize: 20, color: Colors.black),
+    ),
+    textTheme: kTextTheme);

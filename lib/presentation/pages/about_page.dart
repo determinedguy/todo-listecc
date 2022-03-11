@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_listecc/common/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -26,12 +27,39 @@ class AboutPage extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.all(8.0),
               ),
-              const Text('Muhammad Athallah'),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Nama Lengkap',
+                    style: kTextTheme.subtitle2,
+                  ),
+                  Text(
+                    'Muhammad Athallah',
+                    style: kTextTheme.bodyText1,
+                  ),
+                  Text(
+                    'Nama Panggilan',
+                    style: kTextTheme.subtitle2,
+                  ),
+                  Text(
+                    'Athal',
+                    style: kTextTheme.bodyText1,
+                  ),
+                  Text(
+                    'Hobi',
+                    style: kTextTheme.subtitle2,
+                  ),
+                  Text(
+                    'Overthinking',
+                    style: kTextTheme.bodyText1,
+                  ),
+                ],
               ),
-              const Padding(
-                padding: EdgeInsets.all(15.0),
+              const Divider(),
+              Text(
+                'Media Sosial',
+                style: kTextTheme.subtitle2,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
