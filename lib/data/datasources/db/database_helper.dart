@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:todo_listecc/data/models/task_table.dart';
+import 'package:todo_listecc/data/models/todo_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -18,7 +18,7 @@ class DatabaseHelper {
     return _database;
   }
 
-  static const String _tblTask = 'task';
+  static const String _tblTodo = 'todo';
 
   Future<Database> _initDb() async {
     final path = await getDatabasesPath();
@@ -30,7 +30,7 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE  $_tblTask (
+      CREATE TABLE  $_tblTodo (
         id INTEGER PRIMARY KEY,
         title TEXT,
         startDate TEXT,
@@ -40,24 +40,24 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<int> insertTask(TaskTable task) async {
+  Future<int> insertTodo(TodoTable todo) async {
     final db = await database;
-    return await db!.insert(_tblTask, task.toJson());
+    return await db!.insert(_tblTodo, todo.toJson());
   }
 
-  Future<int> removeTask(TaskTable task) async {
+  Future<int> removeTodo(TodoTable todo) async {
     final db = await database;
     return await db!.delete(
-      _tblTask,
+      _tblTodo,
       where: 'id = ?',
-      whereArgs: [task.id],
+      whereArgs: [todo.id],
     );
   }
 
-  Future<Map<String, dynamic>?> getTaskById(int id) async {
+  Future<Map<String, dynamic>?> getTodoById(int id) async {
     final db = await database;
     final results = await db!.query(
-      _tblTask,
+      _tblTodo,
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -69,9 +69,9 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getTaskList() async {
+  Future<List<Map<String, dynamic>>> getTodoList() async {
     final db = await database;
-    final List<Map<String, dynamic>> results = await db!.query(_tblTask);
+    final List<Map<String, dynamic>> results = await db!.query(_tblTodo);
 
     return results;
   }

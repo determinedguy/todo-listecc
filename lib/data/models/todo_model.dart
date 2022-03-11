@@ -1,8 +1,8 @@
-import 'package:todo_listecc/domain/entities/task.dart';
+import 'package:todo_listecc/domain/entities/todo.dart';
 import 'package:equatable/equatable.dart';
 
-class TaskModel extends Equatable {
-  const TaskModel({
+class TodoModel extends Equatable {
+  const TodoModel({
     required this.id,
     required this.title,
     required this.startDate,
@@ -16,7 +16,7 @@ class TaskModel extends Equatable {
   final DateTime endDate;
   final String details;
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
+  factory TodoModel.fromJson(Map<String, dynamic> json) => TodoModel(
         id: json["id"],
         title: json["title"],
         startDate: DateTime.parse(json["start_date"]),
@@ -32,8 +32,8 @@ class TaskModel extends Equatable {
         "details": details,
       };
 
-  Task toEntity() {
-    return Task(
+  Todo toEntity() {
+    return Todo(
       id: id,
       title: title,
       startDate: startDate,

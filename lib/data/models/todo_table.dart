@@ -1,14 +1,14 @@
-import 'package:todo_listecc/domain/entities/task.dart';
+import 'package:todo_listecc/domain/entities/todo.dart';
 import 'package:equatable/equatable.dart';
 
-class TaskTable extends Equatable {
+class TodoTable extends Equatable {
   final int id;
   final String title;
   final DateTime startDate;
   final DateTime endDate;
   final String details;
 
-  const TaskTable({
+  const TodoTable({
     required this.id,
     required this.title,
     required this.startDate,
@@ -16,15 +16,15 @@ class TaskTable extends Equatable {
     required this.details,
   });
 
-  factory TaskTable.fromEntity(Task task) => TaskTable(
-        id: task.id,
-        title: task.title,
-        startDate: task.startDate,
-        endDate: task.endDate,
-        details: task.details,
+  factory TodoTable.fromEntity(Todo todo) => TodoTable(
+        id: todo.id,
+        title: todo.title,
+        startDate: todo.startDate,
+        endDate: todo.endDate,
+        details: todo.details,
       );
 
-  factory TaskTable.fromMap(Map<String, dynamic> map) => TaskTable(
+  factory TodoTable.fromMap(Map<String, dynamic> map) => TodoTable(
         id: map['id'],
         title: map['title'],
         startDate: DateTime.parse(map['startDate']),
@@ -40,13 +40,13 @@ class TaskTable extends Equatable {
         'details': details,
       };
 
-  Task toEntity() => Task(
-      id: id,
-      title: title,
-      startDate: startDate,
-      endDate: endDate,
-      details: details,
-    );
+  Todo toEntity() => Todo(
+        id: id,
+        title: title,
+        startDate: startDate,
+        endDate: endDate,
+        details: details,
+      );
 
   @override
   List<Object?> get props => [id, title, startDate, endDate, details];
