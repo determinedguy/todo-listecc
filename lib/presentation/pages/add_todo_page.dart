@@ -6,10 +6,15 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_listecc/common/constants.dart';
+import 'package:todo_listecc/domain/entities/todo.dart';
+import 'package:todo_listecc/presentation/pages/home_page.dart';
+import 'package:todo_listecc/presentation/provider/add_todo_notifier.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({Key? key}) : super(key: key);
-  
+
   static const ROUTE_NAME = '/add';
 
   @override
@@ -22,16 +27,22 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
   String? _setTime = '', _setDate = '';
 
-  String _hour = '', _minute = '', _time = '';
+  String titleInput = '', detailsInput = '';
+  String _startHour = '', _startMinute = '', _startTime = '';
+  String _endHour = '', _endMinute = '', _endTime = '';
 
   String dateTime = '';
 
   DateTime selectedDate = DateTime.now();
 
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selectedStartTime = const TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selectedEndTime = const TimeOfDay(hour: 00, minute: 00);
 
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -39,9 +50,16 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
     _dateController.text = DateFormat.yMd('id').format(DateTime.now());
 
-    _timeController.text = formatDate(
-        DateTime(2022, 3, 13, DateTime.now().hour, DateTime.now().minute),
+    _startTimeController.text = formatDate(
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
+            DateTime.now().hour, DateTime.now().minute),
         [hh, ':', nn, " ", am]).toString();
+
+    _endTimeController.text = formatDate(
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
+            DateTime.now().hour, DateTime.now().minute),
+        [hh, ':', nn, " ", am]).toString();
+
     super.initState();
   }
 
@@ -56,162 +74,284 @@ class _AddTodoPageState extends State<AddTodoPage> {
         elevation: 0,
         title: const Text('Add Task'),
       ),
-      body: Container(
-        width: _width,
-        height: _height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Text(
-                  'Choose Date',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5),
-                ),
-                InkWell(
-                  onTap: () {
-                    _selectDate(context);
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.title),
+                    hintText: 'Task Title',
+                    labelText: 'Title',
+                  ),
+                  onChanged: (String? value) {
+                    setState(() {
+                      titleInput = value!;
+                    });
                   },
-                  child: Container(
-                    width: _width / 1.7,
-                    height: _height / 9,
-                    margin: EdgeInsets.only(top: 30),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 40),
-                      textAlign: TextAlign.center,
-                      enabled: false,
-                      keyboardType: TextInputType.text,
-                      controller: _dateController,
-                      onSaved: (String? val) {
-                        _setDate = val;
-                      },
-                      decoration: InputDecoration(
-                          disabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          // labelText: 'Time',
-                          contentPadding: EdgeInsets.only(top: 0.0)),
+                  onSaved: (String? value) {
+                    setState(() {
+                      titleInput = value!;
+                    });
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the task title.';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Date',
+                    style: kTextTheme.subtitle2,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    child: Container(
+                      width: _width / 1.4,
+                      height: _height / 10,
+                      margin: const EdgeInsets.only(top: 10, bottom: 20),
+                      decoration: BoxDecoration(color: Colors.grey[200]),
+                      child: TextFormField(
+                        style: const TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                        enabled: false,
+                        keyboardType: TextInputType.text,
+                        controller: _dateController,
+                        onSaved: (String? val) {
+                          _setDate = val;
+                        },
+                        decoration: const InputDecoration(
+                            disabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide.none),
+                            contentPadding: EdgeInsets.only(top: 0.0)),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Text(
-                  'Choose Start Time',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5),
-                ),
-                InkWell(
-                  onTap: () {
-                    _selectTime(context);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 30),
-                    width: _width / 1.7,
-                    height: _height / 9,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 40),
-                      textAlign: TextAlign.center,
-                      onSaved: (String? val) {
-                        _setTime = val;
-                      },
-                      enabled: false,
-                      keyboardType: TextInputType.text,
-                      controller: _timeController,
-                      decoration: InputDecoration(
-                          disabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          // labelText: 'Time',
-                          contentPadding: EdgeInsets.all(5)),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text(
+                    'Start Time',
+                    style: kTextTheme.subtitle2,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _selectStartTime(context);
+                    },
+                    child: Container(
+                      width: _width / 1.4,
+                      height: _height / 10,
+                      margin: const EdgeInsets.only(top: 10, bottom: 20),
+                      decoration: BoxDecoration(color: Colors.grey[200]),
+                      child: TextFormField(
+                        style: const TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                        onSaved: (String? val) {
+                          _setTime = val;
+                        },
+                        enabled: false,
+                        keyboardType: TextInputType.text,
+                        controller: _startTimeController,
+                        decoration: const InputDecoration(
+                            disabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide.none),
+                            contentPadding: EdgeInsets.all(5)),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Text(
-                  'Choose End Time',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5),
-                ),
-                InkWell(
-                  onTap: () {
-                    _selectTime(context);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 30),
-                    width: _width / 1.7,
-                    height: _height / 9,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 40),
-                      textAlign: TextAlign.center,
-                      onSaved: (String? val) {
-                        _setTime = val;
-                      },
-                      enabled: false,
-                      keyboardType: TextInputType.text,
-                      controller: _timeController,
-                      decoration: InputDecoration(
-                          disabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          // labelText: 'Time',
-                          contentPadding: EdgeInsets.all(5)),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text(
+                    'End Time',
+                    style: kTextTheme.subtitle2,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _selectEndTime(context);
+                    },
+                    child: Container(
+                      width: _width / 1.4,
+                      height: _height / 10,
+                      margin: const EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(color: Colors.grey[200]),
+                      child: TextFormField(
+                        style: const TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                        onSaved: (String? val) {
+                          _setTime = val;
+                        },
+                        enabled: false,
+                        keyboardType: TextInputType.text,
+                        controller: _endTimeController,
+                        decoration: const InputDecoration(
+                            disabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide.none),
+                            contentPadding: EdgeInsets.all(5)),
+                      ),
                     ),
                   ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.sticky_note_2),
+                    hintText: 'Task Details',
+                    labelText: 'Details',
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  onChanged: (String? value) {
+                    setState(() {
+                      detailsInput = value!;
+                    });
+                  },
+                  onSaved: (String? value) {
+                    setState(() {
+                      detailsInput = value!;
+                    });
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the task details.';
+                    }
+                    return null;
+                  },
                 ),
-              ],
-            ),
-          ],
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Processing Data')),
+                    );
+
+                    int amount =
+                        Provider.of<AddTodoNotifier>(context, listen: false)
+                            .todoAmount;
+
+                    Todo todo = Todo(
+                      id: amount + 1,
+                      title: titleInput,
+                      startDate: joinDateTime(selectedDate, selectedStartTime),
+                      endDate: joinDateTime(selectedDate, selectedEndTime),
+                      details: detailsInput,
+                    );
+
+                    await Provider.of<AddTodoNotifier>(context, listen: false)
+                        .addTodo(todo);
+
+                    final message =
+                        Provider.of<AddTodoNotifier>(context, listen: false)
+                            .todoMessage;
+
+                    if (message == AddTodoNotifier.todoAddSuccessMessage) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(message)));
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(message),
+                            );
+                          });
+
+                      Navigator.pushNamed(
+                        context,
+                        HomePage.ROUTE_NAME,
+                      );
+                    }
+                  }
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.add),
+                    Text('Add Task'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
         initialDatePickerMode: DatePickerMode.day,
         firstDate: DateTime.now(),
         lastDate: DateTime(2101));
-    if (picked != null)
+    if (picked != null) {
       setState(() {
         selectedDate = picked;
         _dateController.text = DateFormat.yMd('id').format(selectedDate);
       });
+    }
   }
 
-  Future<Null> _selectTime(BuildContext context) async {
+  Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: selectedStartTime,
     );
-    if (picked != null)
+    if (picked != null) {
       setState(() {
-        selectedTime = picked;
-        _hour = selectedTime.hour.toString();
-        _minute = selectedTime.minute.toString();
-        _time = _hour + ' : ' + _minute;
-        _timeController.text = _time;
-        _timeController.text = formatDate(
-            DateTime(2022, 3, 13, selectedTime.hour, selectedTime.minute),
+        selectedStartTime = picked;
+        _startHour = selectedStartTime.hour.toString();
+        _startMinute = selectedStartTime.minute.toString();
+        _startTime = _startHour + ' : ' + _startMinute;
+        _startTimeController.text = _startTime;
+        _startTimeController.text = formatDate(
+            DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
+                selectedStartTime.hour, selectedStartTime.minute),
             [hh, ':', nn, " ", am]).toString();
       });
+    }
   }
 
+  Future<void> _selectEndTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: selectedEndTime,
+    );
+    if (picked != null) {
+      setState(() {
+        selectedEndTime = picked;
+        _endHour = selectedEndTime.hour.toString();
+        _endMinute = selectedEndTime.minute.toString();
+        _endTime = _endHour + ' : ' + _endMinute;
+        _endTimeController.text = _endTime;
+        _endTimeController.text = formatDate(
+            DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
+                selectedEndTime.hour, selectedEndTime.minute),
+            [hh, ':', nn, " ", am]).toString();
+      });
+    }
+  }
+
+  DateTime joinDateTime(DateTime date, TimeOfDay time) {
+    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
+  }
 }

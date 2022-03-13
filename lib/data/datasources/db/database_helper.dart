@@ -75,4 +75,10 @@ class DatabaseHelper {
 
     return results;
   }
+
+  Future<int> getTodoAmount() async {
+    final db = await database;
+    final int? count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM id'));
+    return count!;
+  }
 }

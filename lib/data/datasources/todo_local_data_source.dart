@@ -7,6 +7,7 @@ abstract class TodoLocalDataSource {
   Future<String> removeTodo(TodoTable todo);
   Future<TodoTable?> getTodoById(int id);
   Future<List<TodoTable>> getTodoList();
+  Future<int> getTodoAmount();
 }
 
 class TodoLocalDataSourceImpl implements TodoLocalDataSource {
@@ -48,5 +49,11 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
   Future<List<TodoTable>> getTodoList() async {
     final result = await databaseHelper.getTodoList();
     return result.map((data) => TodoTable.fromMap(data)).toList();
+  }
+
+  @override
+  Future<int> getTodoAmount() async {
+    final result = await databaseHelper.getTodoAmount();
+    return result;
   }
 }

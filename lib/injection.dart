@@ -2,6 +2,7 @@ import 'package:todo_listecc/data/datasources/db/database_helper.dart';
 import 'package:todo_listecc/data/datasources/todo_local_data_source.dart';
 import 'package:todo_listecc/data/repositories/todo_repository_impl.dart';
 import 'package:todo_listecc/domain/repositories/todo_repository.dart';
+import 'package:todo_listecc/domain/usecases/get_todo_amount.dart';
 import 'package:todo_listecc/domain/usecases/get_todo_list.dart';
 import 'package:todo_listecc/domain/usecases/get_todo_status.dart';
 import 'package:todo_listecc/domain/usecases/remove_todo.dart';
@@ -18,6 +19,7 @@ void init() {
   locator.registerFactory(
     () => AddTodoNotifier(
       saveTodo: locator(),
+      getTodoAmount: locator(),
     ),
   );
   locator.registerFactory(
@@ -34,6 +36,7 @@ void init() {
   // use case
   locator.registerLazySingleton(() => GetTodoList(locator()));
   locator.registerLazySingleton(() => GetTodoStatus(locator()));
+  locator.registerLazySingleton(() => GetTodoAmount(locator()));
   locator.registerLazySingleton(() => RemoveTodo(locator()));
   locator.registerLazySingleton(() => SaveTodo(locator()));
 
