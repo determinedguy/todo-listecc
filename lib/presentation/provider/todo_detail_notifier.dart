@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TodoDetailNotifier extends ChangeNotifier {
-  static const todoRemoveSuccessMessage = 'Removed from Database';
+  static const todoRemoveSuccessMessage = 'Removed from database';
   
   final RemoveTodo removeTodo;
 

@@ -35,8 +35,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
 
   DateTime selectedDate = DateTime.now();
 
-  TimeOfDay selectedStartTime = const TimeOfDay(hour: 00, minute: 00);
-  TimeOfDay selectedEndTime = const TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay selectedStartTime = TimeOfDay.now();
+  TimeOfDay selectedEndTime = TimeOfDay.now();
 
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
@@ -77,8 +77,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 24.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0),
               child: TextFormField(
                 decoration: const InputDecoration(
                   icon: Icon(Icons.title),
@@ -130,8 +130,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
                         _setDate = val;
                       },
                       decoration: const InputDecoration(
-                          disabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide.none),
+                          disabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
                           contentPadding: EdgeInsets.only(top: 0.0)),
                     ),
                   ),
@@ -163,8 +163,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       keyboardType: TextInputType.text,
                       controller: _startTimeController,
                       decoration: const InputDecoration(
-                          disabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide.none),
+                          disabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
                           contentPadding: EdgeInsets.all(5)),
                     ),
                   ),
@@ -196,8 +196,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
                       keyboardType: TextInputType.text,
                       controller: _endTimeController,
                       decoration: const InputDecoration(
-                          disabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide.none),
+                          disabledBorder:
+                              UnderlineInputBorder(borderSide: BorderSide.none),
                           contentPadding: EdgeInsets.all(5)),
                     ),
                   ),
@@ -205,8 +205,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 24.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0),
               child: TextFormField(
                 decoration: const InputDecoration(
                   icon: Icon(Icons.sticky_note_2),
@@ -239,7 +239,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
-
+                
                 int amount =
                     Provider.of<AddTodoNotifier>(context, listen: false)
                         .todoAmount;
@@ -262,6 +262,10 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 if (message == AddTodoNotifier.todoAddSuccessMessage) {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text(message)));
+                  Navigator.pushReplacementNamed(
+                    context,
+                    HomePage.ROUTE_NAME,
+                  );
                 } else {
                   showDialog(
                       context: context,
@@ -271,10 +275,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
                         );
                       });
                 }
-                Navigator.pushReplacementNamed(
-                  context,
-                  HomePage.ROUTE_NAME,
-                );
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

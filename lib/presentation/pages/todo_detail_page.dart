@@ -81,39 +81,41 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                   color: Colors.grey[700],
                 ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  await Provider.of<TodoDetailNotifier>(context, listen: false)
-                      .removeFromList(widget.todo);
-
-                  final message =
-                      Provider.of<TodoDetailNotifier>(context, listen: false)
-                          .todoMessage;
-
-                  if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(message)));
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: Text(message),
-                          );
-                        });
-
-                    Navigator.pushReplacementNamed(
-                      context,
-                      HomePage.ROUTE_NAME,
-                    );
-                  }
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Icons.delete),
-                    Text('Delete Task'),
-                  ],
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await Provider.of<TodoDetailNotifier>(context, listen: false)
+                        .removeFromList(widget.todo);
+              
+                    final message =
+                        Provider.of<TodoDetailNotifier>(context, listen: false)
+                            .todoMessage;
+              
+                    if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(message)));
+                      Navigator.pushReplacementNamed(
+                        context,
+                        HomePage.ROUTE_NAME,
+                      );
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(message),
+                            );
+                          });
+                    }
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(Icons.delete),
+                      Text('Delete Task'),
+                    ],
+                  ),
                 ),
               ),
             ],

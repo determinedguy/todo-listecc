@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AddTodoNotifier extends ChangeNotifier {
-  static const todoAddSuccessMessage = 'Added to Database';
+  static const todoAddSuccessMessage = 'Added to database';
 
   final SaveTodo saveTodo;
   final GetTodoAmount getTodoAmount;

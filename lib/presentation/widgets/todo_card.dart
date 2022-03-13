@@ -29,7 +29,7 @@ class TodoCard extends StatelessWidget {
             },
             title: Text(todo.title),
             subtitle: Text(
-              _showDate(todo.startDate) + _showTime(todo.startDate, todo.endDate)
+              _showDate(todo.startDate) + " " +  _showTime(todo.startDate, todo.endDate)
             ),
           ),
         ),
