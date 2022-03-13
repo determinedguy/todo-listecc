@@ -251,10 +251,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                         .todoMessage;
 
                 if (message == AddTodoNotifier.todoAddSuccessMessage) {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    HomePage.ROUTE_NAME,
-                  );
+                  Navigator.of(context).pop();
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text(message)));
                 } else {

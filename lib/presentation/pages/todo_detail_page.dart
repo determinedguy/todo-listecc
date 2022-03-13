@@ -93,10 +93,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                             .todoMessage;
               
                     if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        HomePage.ROUTE_NAME,
-                      );
+                      Navigator.of(context).pop();
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(message)));
                     } else {
