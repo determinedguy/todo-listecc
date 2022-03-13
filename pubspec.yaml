@@ -40,6 +40,10 @@ dependencies:
   dartz: ^0.10.1-nullsafety.2
   url_launcher: ^6.0.20
   font_awesome_flutter: ^9.2.0
+  intl: ^0.17.0
+  provider: ^6.0.2
+  date_format: ^2.0.5
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:

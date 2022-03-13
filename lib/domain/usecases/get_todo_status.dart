@@ -1,9 +1,9 @@
 import 'package:todo_listecc/domain/repositories/todo_repository.dart';
 
-class GetTodoListStatus {
+class GetTodoStatus {
   final TodoRepository repository;
 
-  GetTodoListStatus(this.repository);
+  GetTodoStatus(this.repository);
 
   Future<bool> execute(int id) async {
     return repository.isAddedToTodoList(id);

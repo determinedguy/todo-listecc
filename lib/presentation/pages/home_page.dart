@@ -1,20 +1,29 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_listecc/common/state_enum.dart';
 import 'package:todo_listecc/presentation/pages/about_page.dart';
+import 'package:todo_listecc/presentation/pages/add_todo_page.dart';
+import 'package:todo_listecc/presentation/provider/todo_list_notifier.dart';
+import 'package:todo_listecc/presentation/widgets/todo_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  static const ROUTE_NAME = '/home';
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<TodoListNotifier>(context, listen: false)
+            .fetchTodoList());
   }
 
   @override
@@ -29,29 +38,46 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.person),
               tooltip: 'About Me',
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const AboutPage();
-                }));
+                Navigator.pushNamed(
+                  context,
+                  AboutPage.ROUTE_NAME,
+                );
               }),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Consumer<TodoListNotifier>(
+          builder: (context, data, child) {
+            if (data.todoListState == RequestState.Loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (data.todoListState == RequestState.Loaded) {
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final todo = data.todoList[index];
+                  return TodoCard(todo);
+                },
+                itemCount: data.todoList.length,
+              );
+            } else {
+              return Center(
+                key: const Key('error_message'),
+                child: Text(data.message),
+              );
+            }
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            AddTodoPage.ROUTE_NAME,
+          );
+        },
+        tooltip: 'Add Task',
         child: const Icon(Icons.add),
       ),
     );

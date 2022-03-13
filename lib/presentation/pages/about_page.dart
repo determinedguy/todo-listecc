@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:todo_listecc/common/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -5,6 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
+
+  static const ROUTE_NAME = '/about-me';
 
   @override
   Widget build(BuildContext context) {
