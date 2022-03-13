@@ -236,16 +236,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                // TODO: GAMAU OPER KEBAWAH???
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
-                );
-                
-                // TODO: GAMAU NAMBAH TODO BARU, ID?
-                int amount =
-                    Provider.of<AddTodoNotifier>(context, listen: false)
-                        .todoAmount;
-
                 Todo todo = Todo(
                   title: titleInput,
                   startDate: joinDateTime(selectedDate, selectedStartTime),
@@ -261,12 +251,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
                         .todoMessage;
 
                 if (message == AddTodoNotifier.todoAddSuccessMessage) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(message)));
                   Navigator.pushReplacementNamed(
                     context,
                     HomePage.ROUTE_NAME,
                   );
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(message)));
                 } else {
                   showDialog(
                       context: context,

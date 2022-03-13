@@ -42,10 +42,4 @@ class TodoRepositoryImpl implements TodoRepository {
     final result = await localDataSource.getTodoList();
     return Right(result.map((data) => data.toEntity()).toList());
   }
-
-  @override
-  Future<int> getTodoAmount() async {
-    final result = await localDataSource.getTodoAmount();
-    return result;
-  }
 }

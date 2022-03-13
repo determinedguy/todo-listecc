@@ -6,5 +6,4 @@ abstract class TodoRepository {
   Future<Either<Failure, String>> saveTodo(Todo todo);
   Future<Either<Failure, String>> removeTodo(Todo todo);
   Future<Either<Failure, List<Todo>>> getTodoList();
-  Future<int> getTodoAmount();
 }
