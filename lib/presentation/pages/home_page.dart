@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_listecc/common/state_enum.dart';
+import 'package:todo_listecc/common/utils.dart';
 import 'package:todo_listecc/presentation/pages/about_page.dart';
 import 'package:todo_listecc/presentation/pages/add_todo_page.dart';
 import 'package:todo_listecc/presentation/provider/todo_list_notifier.dart';
@@ -17,13 +18,25 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with RouteAware {
   @override
   void initState() {
     super.initState();
     Future.microtask(() =>
         Provider.of<TodoListNotifier>(context, listen: false)
             .fetchTodoList());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override

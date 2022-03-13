@@ -22,126 +22,128 @@ class TodoDetailPage extends StatefulWidget {
 class _TodoDetailPageState extends State<TodoDetailPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      alignment: Alignment.topCenter,
-      padding: const EdgeInsets.only(top: 16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 16.0, left: 16.0, right: 16.0, bottom: 8.0),
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    widget.todo.title,
-                    style: kTextTheme.bodyText1,
+    return Scaffold(
+      body: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        alignment: Alignment.topCenter,
+        padding: const EdgeInsets.only(top: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 16.0, left: 16.0, right: 16.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.todo.title,
+                      style: kTextTheme.bodyText1,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 16.0, left: 16.0, right: 16.0, bottom: 8.0),
-            child: Row(
-              children: [
-                const Icon(Icons.date_range),
-                const SizedBox(width: 8),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    _showDate(widget.todo.startDate),
-                    style: kTextTheme.subtitle1,
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 16.0, left: 16.0, right: 16.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  const Icon(Icons.date_range),
+                  const SizedBox(width: 8),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      _showDate(widget.todo.startDate),
+                      style: kTextTheme.subtitle1,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
-            child: Row(
-              children: [
-                const Icon(Icons.timer),
-                const SizedBox(width: 8),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    _showTime(widget.todo.startDate, widget.todo.endDate),
-                    style: kTextTheme.subtitle1,
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  const Icon(Icons.timer),
+                  const SizedBox(width: 8),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      _showTime(widget.todo.startDate, widget.todo.endDate),
+                      style: kTextTheme.subtitle1,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
-            child: Row(
-              children: [
-                Text(
-                  'Details',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black.withOpacity(0.8),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  Text(
+                    'Details',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(0.8),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 8.0, left: 16.0, right: 16.0, bottom: 16.0),
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    widget.todo.details,
-                    style: TextStyle(color: Colors.black.withOpacity(0.6)),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 16.0, right: 16.0, bottom: 16.0),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.todo.details,
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await Provider.of<TodoDetailNotifier>(context, listen: false)
-                  .removeFromList(widget.todo);
-
-              final message =
-                  Provider.of<TodoDetailNotifier>(context, listen: false)
-                      .todoMessage;
-
-              if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(message)));
-              } else {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: Text(message),
-                      );
-                    });
-              
-              Navigator.pushNamed(
-                  context,
-                  HomePage.ROUTE_NAME,
-                );
-              }
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.delete),
-                Text('Delete Task'),
-              ],
+            ElevatedButton(
+              onPressed: () async {
+                await Provider.of<TodoDetailNotifier>(context, listen: false)
+                    .removeFromList(widget.todo);
+    
+                final message =
+                    Provider.of<TodoDetailNotifier>(context, listen: false)
+                        .todoMessage;
+    
+                if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(message)));
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          content: Text(message),
+                        );
+                      });
+                
+                Navigator.pushReplacementNamed(
+                    context,
+                    HomePage.ROUTE_NAME,
+                  );
+                }
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(Icons.delete),
+                  Text('Delete Task'),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -81,7 +81,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0),
+                padding: const EdgeInsets.only(
+                    bottom: 24.0, left: 24.0, right: 24.0),
                 child: TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.title),
@@ -208,7 +209,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 24.0, left: 24.0, right: 24.0),
+                padding: const EdgeInsets.only(
+                    bottom: 24.0, left: 24.0, right: 24.0),
                 child: TextFormField(
                   decoration: const InputDecoration(
                     icon: Icon(Icons.sticky_note_2),
@@ -273,12 +275,11 @@ class _AddTodoPageState extends State<AddTodoPage> {
                               content: Text(message),
                             );
                           });
-
-                      Navigator.pushNamed(
-                        context,
-                        HomePage.ROUTE_NAME,
-                      );
                     }
+                    Navigator.pushReplacementNamed(
+                      context,
+                      HomePage.ROUTE_NAME,
+                    );
                   }
                 },
                 child: Row(

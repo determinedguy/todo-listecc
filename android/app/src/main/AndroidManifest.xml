@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.todo_listecc">
+    package="com.determinedguy.todo_listecc">
    <application
-        android:label="todo_listecc"
+        android:label="Todo Listecc"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

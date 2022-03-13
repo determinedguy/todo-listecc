@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_listecc/common/constants.dart';
+import 'package:todo_listecc/common/utils.dart';
 import 'package:todo_listecc/domain/entities/todo.dart';
 import 'package:todo_listecc/presentation/pages/about_page.dart';
 import 'package:todo_listecc/presentation/pages/add_todo_page.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         title: 'Todo Listecc',
         theme: appTheme,
         home: const HomePage(),
+        navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case HomePage.ROUTE_NAME:
