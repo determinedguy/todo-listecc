@@ -42,8 +42,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-
   @override
   void initState() {
     initializeDateFormatting();
@@ -75,223 +73,218 @@ class _AddTodoPageState extends State<AddTodoPage> {
         title: const Text('Add Task'),
       ),
       body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 24.0, left: 24.0, right: 24.0),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.title),
-                    hintText: 'Task Title',
-                    labelText: 'Title',
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      titleInput = value!;
-                    });
-                  },
-                  onSaved: (String? value) {
-                    setState(() {
-                      titleInput = value!;
-                    });
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the task title.';
-                    }
-                    return null;
-                  },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: 24.0, left: 24.0, right: 24.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.title),
+                  hintText: 'Task Title',
+                  labelText: 'Title',
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Date',
-                    style: kTextTheme.subtitle2,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Container(
-                      width: _width / 1.4,
-                      height: _height / 10,
-                      margin: const EdgeInsets.only(top: 10, bottom: 20),
-                      decoration: BoxDecoration(color: Colors.grey[200]),
-                      child: TextFormField(
-                        style: const TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        keyboardType: TextInputType.text,
-                        controller: _dateController,
-                        onSaved: (String? val) {
-                          _setDate = val;
-                        },
-                        decoration: const InputDecoration(
-                            disabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            contentPadding: EdgeInsets.only(top: 0.0)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Text(
-                    'Start Time',
-                    style: kTextTheme.subtitle2,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _selectStartTime(context);
-                    },
-                    child: Container(
-                      width: _width / 1.4,
-                      height: _height / 10,
-                      margin: const EdgeInsets.only(top: 10, bottom: 20),
-                      decoration: BoxDecoration(color: Colors.grey[200]),
-                      child: TextFormField(
-                        style: const TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                        onSaved: (String? val) {
-                          _setTime = val;
-                        },
-                        enabled: false,
-                        keyboardType: TextInputType.text,
-                        controller: _startTimeController,
-                        decoration: const InputDecoration(
-                            disabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            contentPadding: EdgeInsets.all(5)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Text(
-                    'End Time',
-                    style: kTextTheme.subtitle2,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _selectEndTime(context);
-                    },
-                    child: Container(
-                      width: _width / 1.4,
-                      height: _height / 10,
-                      margin: const EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(color: Colors.grey[200]),
-                      child: TextFormField(
-                        style: const TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                        onSaved: (String? val) {
-                          _setTime = val;
-                        },
-                        enabled: false,
-                        keyboardType: TextInputType.text,
-                        controller: _endTimeController,
-                        decoration: const InputDecoration(
-                            disabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            contentPadding: EdgeInsets.all(5)),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 24.0, left: 24.0, right: 24.0),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.sticky_note_2),
-                    hintText: 'Task Details',
-                    labelText: 'Details',
-                  ),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  onChanged: (String? value) {
-                    setState(() {
-                      detailsInput = value!;
-                    });
-                  },
-                  onSaved: (String? value) {
-                    setState(() {
-                      detailsInput = value!;
-                    });
-                  },
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the task details.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
-
-                    int amount =
-                        Provider.of<AddTodoNotifier>(context, listen: false)
-                            .todoAmount;
-
-                    Todo todo = Todo(
-                      id: amount + 1,
-                      title: titleInput,
-                      startDate: joinDateTime(selectedDate, selectedStartTime),
-                      endDate: joinDateTime(selectedDate, selectedEndTime),
-                      details: detailsInput,
-                    );
-
-                    await Provider.of<AddTodoNotifier>(context, listen: false)
-                        .addTodo(todo);
-
-                    final message =
-                        Provider.of<AddTodoNotifier>(context, listen: false)
-                            .todoMessage;
-
-                    if (message == AddTodoNotifier.todoAddSuccessMessage) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(SnackBar(content: Text(message)));
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Text(message),
-                            );
-                          });
-                    }
-                    Navigator.pushReplacementNamed(
-                      context,
-                      HomePage.ROUTE_NAME,
-                    );
-                  }
+                onChanged: (String? value) {
+                  setState(() {
+                    titleInput = value!;
+                  });
                 },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Icons.add),
-                    Text('Add Task'),
-                  ],
-                ),
+                onSaved: (String? value) {
+                  setState(() {
+                    titleInput = value!;
+                  });
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter the task title.';
+                  }
+                  return null;
+                },
               ),
-            ],
-          ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Date',
+                  style: kTextTheme.subtitle2,
+                ),
+                InkWell(
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  child: Container(
+                    width: _width / 1.4,
+                    height: _height / 10,
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: TextFormField(
+                      style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                      enabled: false,
+                      keyboardType: TextInputType.text,
+                      controller: _dateController,
+                      onSaved: (String? val) {
+                        _setDate = val;
+                      },
+                      decoration: const InputDecoration(
+                          disabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.only(top: 0.0)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Text(
+                  'Start Time',
+                  style: kTextTheme.subtitle2,
+                ),
+                InkWell(
+                  onTap: () {
+                    _selectStartTime(context);
+                  },
+                  child: Container(
+                    width: _width / 1.4,
+                    height: _height / 10,
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: TextFormField(
+                      style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                      onSaved: (String? val) {
+                        _setTime = val;
+                      },
+                      enabled: false,
+                      keyboardType: TextInputType.text,
+                      controller: _startTimeController,
+                      decoration: const InputDecoration(
+                          disabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.all(5)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Text(
+                  'End Time',
+                  style: kTextTheme.subtitle2,
+                ),
+                InkWell(
+                  onTap: () {
+                    _selectEndTime(context);
+                  },
+                  child: Container(
+                    width: _width / 1.4,
+                    height: _height / 10,
+                    margin: const EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(color: Colors.grey[200]),
+                    child: TextFormField(
+                      style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                      onSaved: (String? val) {
+                        _setTime = val;
+                      },
+                      enabled: false,
+                      keyboardType: TextInputType.text,
+                      controller: _endTimeController,
+                      decoration: const InputDecoration(
+                          disabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.all(5)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: 24.0, left: 24.0, right: 24.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.sticky_note_2),
+                  hintText: 'Task Details',
+                  labelText: 'Details',
+                ),
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                onChanged: (String? value) {
+                  setState(() {
+                    detailsInput = value!;
+                  });
+                },
+                onSaved: (String? value) {
+                  setState(() {
+                    detailsInput = value!;
+                  });
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter the task details.';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Processing Data')),
+                );
+
+                int amount =
+                    Provider.of<AddTodoNotifier>(context, listen: false)
+                        .todoAmount;
+
+                Todo todo = Todo(
+                  id: amount + 1,
+                  title: titleInput,
+                  startDate: joinDateTime(selectedDate, selectedStartTime),
+                  endDate: joinDateTime(selectedDate, selectedEndTime),
+                  details: detailsInput,
+                );
+
+                await Provider.of<AddTodoNotifier>(context, listen: false)
+                    .addTodo(todo);
+
+                final message =
+                    Provider.of<AddTodoNotifier>(context, listen: false)
+                        .todoMessage;
+
+                if (message == AddTodoNotifier.todoAddSuccessMessage) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(message)));
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          content: Text(message),
+                        );
+                      });
+                }
+                Navigator.pushReplacementNamed(
+                  context,
+                  HomePage.ROUTE_NAME,
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(Icons.add),
+                  Text('Add Task'),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

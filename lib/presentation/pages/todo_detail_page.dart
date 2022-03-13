@@ -23,31 +23,23 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        alignment: Alignment.topCenter,
-        padding: const EdgeInsets.only(top: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 16.0, left: 16.0, right: 16.0, bottom: 8.0),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      widget.todo.title,
-                      style: kTextTheme.bodyText1,
-                    ),
-                  ),
-                ],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text('Task Details'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30.0, left: 25.0, right: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.todo.title,
+                style: kTextTheme.bodyText1,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 16.0, left: 16.0, right: 16.0, bottom: 8.0),
-              child: Row(
+              const Padding(padding: EdgeInsets.all(4.0)),
+              Row(
                 children: [
                   const Icon(Icons.date_range),
                   const SizedBox(width: 8),
@@ -60,11 +52,8 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                   ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
-              child: Row(
+              const Padding(padding: EdgeInsets.all(4.0)),
+              Row(
                 children: [
                   const Icon(Icons.timer),
                   const SizedBox(width: 8),
@@ -77,72 +66,58 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                   ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, left: 16.0, right: 16.0, bottom: 8.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Details',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black.withOpacity(0.8),
-                    ),
-                  ),
-                ],
+              const Padding(padding: EdgeInsets.all(4.0)),
+              Text(
+                'Details',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black.withOpacity(0.8),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, left: 16.0, right: 16.0, bottom: 16.0),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Text(
-                      widget.todo.details,
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    ),
-                  ),
-                ],
+              const Padding(padding: EdgeInsets.all(4.0)),
+              Text(
+                widget.todo.details,
+                style: TextStyle(
+                  color: Colors.grey[700],
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await Provider.of<TodoDetailNotifier>(context, listen: false)
-                    .removeFromList(widget.todo);
-    
-                final message =
-                    Provider.of<TodoDetailNotifier>(context, listen: false)
-                        .todoMessage;
-    
-                if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(message)));
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Text(message),
-                        );
-                      });
-                
-                Navigator.pushReplacementNamed(
-                    context,
-                    HomePage.ROUTE_NAME,
-                  );
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.delete),
-                  Text('Delete Task'),
-                ],
+              ElevatedButton(
+                onPressed: () async {
+                  await Provider.of<TodoDetailNotifier>(context, listen: false)
+                      .removeFromList(widget.todo);
+
+                  final message =
+                      Provider.of<TodoDetailNotifier>(context, listen: false)
+                          .todoMessage;
+
+                  if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(message)));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text(message),
+                          );
+                        });
+
+                    Navigator.pushReplacementNamed(
+                      context,
+                      HomePage.ROUTE_NAME,
+                    );
+                  }
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.delete),
+                    Text('Delete Task'),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -28,6 +28,12 @@ class _HomePageState extends State<HomePage> with RouteAware {
   }
 
   @override
+  void didPopNext() {
+    Provider.of<TodoListNotifier>(context, listen: false)
+            .fetchTodoList();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context)!);

@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         title: 'Todo Listecc',
         theme: appTheme,
         home: const HomePage(),
-        navigatorObservers: [routeObserver],
+        navigatorObservers: <NavigatorObserver>[routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case HomePage.ROUTE_NAME:
