@@ -95,6 +95,7 @@ class _TodoDetailPageState extends State<TodoDetailPage> {
                     if (message == TodoDetailNotifier.todoRemoveSuccessMessage) {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(message)));
+                      // GAMAU PUSH REPLACEMENT NAME
                       Navigator.pushReplacementNamed(
                         context,
                         HomePage.ROUTE_NAME,

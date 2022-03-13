@@ -31,8 +31,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE  $_tblTodo (
-        id INTEGER PRIMARY KEY,
-        title TEXT,
+        title TEXT PRIMARY KEY,
         startDate TEXT,
         endDate TEXT,
         details TEXT
@@ -49,24 +48,9 @@ class DatabaseHelper {
     final db = await database;
     return await db!.delete(
       _tblTodo,
-      where: 'id = ?',
-      whereArgs: [todo.id],
+      where: 'title = ?',
+      whereArgs: [todo.title],
     );
-  }
-
-  Future<Map<String, dynamic>?> getTodoById(int id) async {
-    final db = await database;
-    final results = await db!.query(
-      _tblTodo,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    if (results.isNotEmpty) {
-      return results.first;
-    } else {
-      return null;
-    }
   }
 
   Future<List<Map<String, dynamic>>> getTodoList() async {
@@ -78,7 +62,7 @@ class DatabaseHelper {
 
   Future<int> getTodoAmount() async {
     final db = await database;
-    final int? count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM id'));
+    final int? count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM title'));
     return count!;
   }
 }

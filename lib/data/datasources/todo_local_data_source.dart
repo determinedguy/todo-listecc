@@ -5,7 +5,6 @@ import 'package:todo_listecc/data/models/todo_table.dart';
 abstract class TodoLocalDataSource {
   Future<String> insertTodo(TodoTable todo);
   Future<String> removeTodo(TodoTable todo);
-  Future<TodoTable?> getTodoById(int id);
   Future<List<TodoTable>> getTodoList();
   Future<int> getTodoAmount();
 }
@@ -32,16 +31,6 @@ class TodoLocalDataSourceImpl implements TodoLocalDataSource {
       return 'Removed from database';
     } catch (e) {
       throw DatabaseException(e.toString());
-    }
-  }
-
-  @override
-  Future<TodoTable?> getTodoById(int id) async {
-    final result = await databaseHelper.getTodoById(id);
-    if (result != null) {
-      return TodoTable.fromMap(result);
-    } else {
-      return null;
     }
   }
 

@@ -38,12 +38,6 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<bool> isAddedToTodoList(int id) async {
-    final result = await localDataSource.getTodoById(id);
-    return result != null;
-  }
-
-  @override
   Future<Either<Failure, List<Todo>>> getTodoList() async {
     final result = await localDataSource.getTodoList();
     return Right(result.map((data) => data.toEntity()).toList());

@@ -236,16 +236,17 @@ class _AddTodoPageState extends State<AddTodoPage> {
             ),
             ElevatedButton(
               onPressed: () async {
+                // TODO: GAMAU OPER KEBAWAH???
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
                 
+                // TODO: GAMAU NAMBAH TODO BARU, ID?
                 int amount =
                     Provider.of<AddTodoNotifier>(context, listen: false)
                         .todoAmount;
 
                 Todo todo = Todo(
-                  id: amount + 1,
                   title: titleInput,
                   startDate: joinDateTime(selectedDate, selectedStartTime),
                   endDate: joinDateTime(selectedDate, selectedEndTime),

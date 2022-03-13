@@ -2,14 +2,12 @@ import 'package:equatable/equatable.dart';
 
 class Todo extends Equatable {
   const Todo({
-    required this.id,
     required this.title,
     required this.startDate,
     required this.endDate,
     required this.details,
   });
 
-  final int id;
   final String title;
   final DateTime startDate;
   final DateTime endDate;
@@ -17,7 +15,6 @@ class Todo extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
         title,
         startDate,
         endDate,
